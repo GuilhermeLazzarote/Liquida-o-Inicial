@@ -1,0 +1,5 @@
+{
+  "name": "CÁLCULA AI - LIQUIDAÇÃO DE INICIAS",
+  "description": "Uma aplicação para liquidar cálculos trabalhistas a partir de documentos de processos judiciais usando IA, com a funcionalidade de exportar os resultados para PDF.",
+  "requestFramePermissions": []
+}

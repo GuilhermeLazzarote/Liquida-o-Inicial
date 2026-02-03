@@ -1,0 +1,6 @@
+
+// **IMPORTANTE:** Este é um placeholder de 1x1 pixel transparente.
+// Para exibir o logo da sua empresa no PDF, substitua este valor pela string base64
+// do seu logo real. Você pode usar uma ferramenta online para converter sua imagem em base64.
+// Exemplo: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAB3RJTUUH6AsHFi4c7W2xrgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBVi5iGUwAAAKVJREFUOE/tlGsKwDAIhuu/z/0X3dYpG+0UGBgZGRgZGb5CgsJ52wRzP6gYGBgYGfk5MGCm2qFz+9QxMDIS3wJz0A8j82t+BwZGRgZG5gTmoB9gZGRgZGSB8wJz0A8j82t+BwZGRgZG5gTmoB9gZGRgZGSB8wJz0A8j82t+BwZGRgZG5gTmoB9gZGRgZGSB8wJz0A8j82t+BwZGRgZG5gTmoB9gZGRgZGSB8wJz0A8j82t+BwZGRgZG5gTmoB9gZGRgZGSCfwATxT0+3uL8HwAAAABJRU5ErkJggg=='
+export const PELLEGRINA_MONTEIRO_LOGO_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';

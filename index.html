@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora do Vilão</title>
+
+    <!-- (Opcional) Tailwind por CDN só para testes rápidos;
+         em produção, o ideal é Tailwind via build do Vite -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Removido: importmap/react/react-dom por CDN (conflita com Vite) -->
+    <!-- Carregue PDF.js principal (necessário para window.pdfjsLib) -->
+    https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js</script>
+  </head>
+  <body class="bg-gray-100">
+    <div id="root"></div>
+
+    <!-- Se você tiver um index.css real, deixe a linha abaixo ajustando o caminho.
+         Caso NÃO tenha esse arquivo, REMOVA a linha. -->
+    <!-- <link rel="stylesheet" href="/index.css"> -->
+
+    <!-- **Entrada do Vite**:
+         - Se seu entry está na RAIZ (seu caso), deixe "/index.tsx".
+         - Se estivesse em src/, seria "/src/main.tsx". -->
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

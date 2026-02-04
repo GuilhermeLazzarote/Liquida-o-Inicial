@@ -18,7 +18,7 @@ export const createSingleCalculationPdf = (result: CalculoTrabalhista) => {
   const doc = new jsPDF({ orientation: 'l', unit: 'mm', format: 'a4' });
   generateReport(doc, result);
   const safeName = (result.reclamante || 'Calculo').toUpperCase().replace(/\s/g, '_').substring(0, 30);
-  doc.save(`Demonstrativo_Liquidacao_PjeCalc_${safeName}.pdf`);
+  doc.save(`DEMONSTRATIVO_LIQUIDACAO_${safeName}.pdf`);
 };
 
 export const generateConsolidatedPdfFromHistory = (history: CalculoTrabalhista[]) => {
@@ -27,7 +27,7 @@ export const generateConsolidatedPdfFromHistory = (history: CalculoTrabalhista[]
     if (index > 0) doc.addPage();
     generateReport(doc, result);
   });
-  doc.save('Consolidado_Liquidacoes_Judiciais.pdf');
+  doc.save('CONSOLIDADO_LIQUIDACOES_JUDICIAIS.pdf');
 };
 
 const generateReport = (doc: jsPDF, result: CalculoTrabalhista) => {
@@ -48,14 +48,12 @@ const generateReport = (doc: jsPDF, result: CalculoTrabalhista) => {
     const today = new Date().toLocaleDateString('pt-BR');
     const dataRef = result.dataLiquidacao || today;
 
-    // --- CABEÇALHO ---
+    // --- CABEÇALHO PERICIAL ---
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(14);
-    doc.setTextColor(40, 40, 40);
-    doc.text('DEMONSTRATIVO DE LIQUIDAÇÃO TRABALHISTA', margin, currentY);
+    doc.setTextColor(20, 20, 20);
+    doc.text('DEMONSTRATIVO DE LIQUIDAÇÃO DE SENTENÇA', margin, currentY);
     
-    // Removido o trecho "Sistema de Liquidação Pericial por IA..." conforme solicitado
-
     const infoX = pageWidth - 85;
     doc.setFontSize(8);
     doc.text(`Nº do Processo:`, infoX, currentY);
@@ -63,15 +61,15 @@ const generateReport = (doc: jsPDF, result: CalculoTrabalhista) => {
     doc.text(result.numeroProcesso || 'N/I', infoX + 22, currentY);
     
     doc.setFont('helvetica', 'normal');
-    doc.text(`Data Emissão:`, infoX, currentY + 4);
-    doc.text(today, infoX + 18, currentY + 4);
+    doc.text(`Data de Emissão:`, infoX, currentY + 4);
+    doc.text(today, infoX + 22, currentY + 4);
 
-    currentY += 12;
-    doc.setDrawColor(200);
+    currentY += 10;
+    doc.setDrawColor(180);
     doc.line(margin, currentY, pageWidth - margin, currentY);
     currentY += 8;
 
-    // --- QUADRO DE IDENTIFICAÇÃO ---
+    // --- IDENTIFICAÇÃO DAS PARTES ---
     autoTable(doc, {
         startY: currentY,
         margin: { left: margin, right: margin },
@@ -85,12 +83,12 @@ const generateReport = (doc: jsPDF, result: CalculoTrabalhista) => {
         columnStyles: { 0: { fontStyle: 'bold', cellWidth: 25 }, 1: { cellWidth: 135 }, 2: { fontStyle: 'bold', cellWidth: 25 } }
     });
 
-    currentY = (doc as any).lastAutoTable.finalY + 12;
+    currentY = (doc as any).lastAutoTable.finalY + 10;
 
-    // --- 1. RESUMO GERAL ---
+    // --- RESUMO DAS VERBAS ---
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.text('1. RESUMO DAS VERBAS APURADAS', margin, currentY);
+    doc.text('1. DEMONSTRATIVO DAS VERBAS APURADAS', margin, currentY);
     currentY += 4;
 
     autoTable(doc, {
@@ -120,13 +118,13 @@ const generateReport = (doc: jsPDF, result: CalculoTrabalhista) => {
         footStyles: { fillColor: [240, 240, 240], textColor: 0, fontStyle: 'bold', halign: 'right', fontSize: 8 }
     });
 
-    currentY = (doc as any).lastAutoTable.finalY + 15;
+    currentY = (doc as any).lastAutoTable.finalY + 12;
 
-    // --- 2. QUADRO FINANCEIRO ---
+    // --- RESUMO FINANCEIRO ---
     checkPageBreak(65);
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.text('2. QUADRO RESUMO DO DÉBITO', margin, currentY);
+    doc.text('2. QUADRO RESUMO DO DÉBITO ATUALIZADO', margin, currentY);
     currentY += 4;
 
     const colWidth = (pageWidth - (margin * 3)) / 2;
@@ -139,10 +137,10 @@ const generateReport = (doc: jsPDF, result: CalculoTrabalhista) => {
         body: [
             ['(+) Principal Corrigido Bruto', formatCurrency(result.totalBruto)],
             ['(+) Juros de Mora (SELIC)', formatCurrency(result.juros)],
-            ['(-) Previdência Social (Cota Segurado)', `(${formatCurrency(result.inss)})`],
+            ['(-) Previdência Social (Segurado)', `(${formatCurrency(result.inss)})`],
             ['(-) Imposto de Renda (IRRF)', `(${formatCurrency(result.irrf)})`],
             ['(+) FGTS Apurado', formatCurrency(result.fgts || 0)],
-            ['VALOR LÍQUIDO DEVIDO AO RECLAMANTE', { content: formatCurrency(result.totalLiquido), styles: { fontStyle: 'bold', fillColor: [235, 245, 255] } }]
+            ['VALOR LÍQUIDO DEVIDO AO RECLAMANTE', { content: formatCurrency(result.totalLiquido), styles: { fontStyle: 'bold', fillColor: [230, 230, 230] } }]
         ],
         theme: 'grid',
         headStyles: { fillColor: [80, 80, 80], textColor: 255, fontSize: 8.5 },
@@ -168,15 +166,14 @@ const generateReport = (doc: jsPDF, result: CalculoTrabalhista) => {
     });
     
     const finalYRight = (doc as any).lastAutoTable.finalY;
-    currentY = Math.max(finalYLeft, finalYRight) + 15;
+    currentY = Math.max(finalYLeft, finalYRight) + 12;
 
-    // --- ANEXO I ---
+    // --- ANEXO DE MEMÓRIA ---
     doc.addPage();
     currentY = margin + 5;
 
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(0, 0, 0);
     doc.text('ANEXO I - MEMÓRIA DE CÁLCULO MENSAL DISCRIMINADA', margin, currentY);
     currentY += 8;
 
@@ -189,7 +186,6 @@ const generateReport = (doc: jsPDF, result: CalculoTrabalhista) => {
 
             doc.setFontSize(9);
             doc.setFont('helvetica', 'bold');
-            doc.setTextColor(60, 60, 60);
             doc.text(`${vIdx + 1}.1 - ${verba.descricao.toUpperCase()}`, margin, currentY);
             currentY += 4;
 
@@ -207,7 +203,7 @@ const generateReport = (doc: jsPDF, result: CalculoTrabalhista) => {
                     formatCurrency(m.total)
                 ]),
                 theme: 'grid',
-                headStyles: { fillColor: [245, 245, 245], textColor: 50, fontSize: 7, fontStyle: 'bold', halign: 'center' },
+                headStyles: { fillColor: [240, 240, 240], textColor: 30, fontSize: 7, fontStyle: 'bold', halign: 'center' },
                 styles: { fontSize: 6.5, cellPadding: 1, overflow: 'linebreak' },
                 columnStyles: { 
                     0: { halign: 'center', cellWidth: 20 }, 
@@ -226,6 +222,4 @@ const generateReport = (doc: jsPDF, result: CalculoTrabalhista) => {
             currentY = (doc as any).lastAutoTable.finalY + 12;
         }
     });
-    
-    // Removido o rodapé conforme solicitado
 };

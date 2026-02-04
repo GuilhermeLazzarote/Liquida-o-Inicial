@@ -203,14 +203,14 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result, isEditing = fal
     <div className="w-full max-w-7xl bg-white p-6 rounded-xl shadow-xl border border-gray-200 animate-fade-in mb-8">
       <div className="flex justify-between items-center mb-6 border-b pb-4">
         <div>
-            <h2 className="text-2xl font-bold text-gray-800">DEMONSTRATIVO DE LIQUIDAÇÃO JUDICIAL</h2>
-            <p className="text-xs text-gray-500 mt-1 uppercase tracking-tighter">Relatório Técnico Pericial de Apuração de Haveres</p>
+            <h2 className="text-2xl font-bold text-gray-800">DEMONSTRATIVO DE LIQUIDAÇÃO TÉCNICA</h2>
+            <p className="text-xs text-gray-500 mt-1 uppercase tracking-tighter">Cálculo Pericial de Haveres Judiciais</p>
         </div>
         <div className="text-right">
-            <span className="text-[10px] font-mono bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-100 block mb-1">
-                {result.calculationSource === 'AI_CALCULATED' ? 'Processamento Automatizado' : 'Ajuste Manual Pericial'}
+            <span className="text-[10px] font-mono bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-100 block mb-1">
+                Laudo Pericial Consolidado
             </span>
-            <span className="text-[10px] font-bold text-gray-400 uppercase">Atualizado até: {result.dataLiquidacao || new Date().toLocaleDateString('pt-BR')}</span>
+            <span className="text-[10px] font-bold text-gray-400 uppercase">Referência: {result.dataLiquidacao || new Date().toLocaleDateString('pt-BR')}</span>
         </div>
       </div>
       
@@ -224,7 +224,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result, isEditing = fal
         <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-bold text-gray-700 flex items-center">
                 <span className="bg-blue-600 w-1.5 h-6 mr-2 rounded-full"></span>
-                1. Verbas e Reflexos (Memória Mensal)
+                1. Verbas Apuradas e Reflexos
             </h3>
             {isEditing && (
                 <button 
@@ -232,7 +232,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result, isEditing = fal
                     className="bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm hover:bg-emerald-700 transition-all flex items-center active:scale-95"
                 >
                     <PlusIcon className="h-4 w-4 mr-2" />
-                    Adicionar Nova Rubrica
+                    Adicionar Rubrica
                 </button>
             )}
         </div>
@@ -244,9 +244,9 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result, isEditing = fal
                 <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest">Rubrica</th>
                 <th className="px-3 py-3 text-center text-[11px] font-bold text-gray-400 uppercase tracking-widest w-20">Nat.</th>
                 <th className="px-3 py-3 text-right text-[11px] font-bold text-gray-400 uppercase tracking-widest w-36">Princ. Corrig.</th>
-                <th className="px-3 py-3 text-right text-[11px] font-bold text-gray-400 uppercase tracking-widest w-36">Juros</th>
+                <th className="px-3 py-3 text-right text-[11px] font-bold text-gray-400 uppercase tracking-widest w-36">Juros Mora</th>
                 <th className="px-4 py-3 text-right text-[11px] font-bold text-gray-600 uppercase tracking-widest w-40">Total Bruto</th>
-                <th className="px-4 py-3 w-28 text-center text-[11px] font-bold text-gray-400 uppercase tracking-widest">Memória</th>
+                <th className="px-4 py-3 w-28 text-center text-[11px] font-bold text-gray-400 uppercase tracking-widest">Detalhes</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-100">
@@ -285,7 +285,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result, isEditing = fal
                             <TrashIcon className="h-4.5 w-4.5" />
                           </button>
                         ) : (
-                          <span className="text-[10px] bg-white border border-gray-200 px-2 py-1 rounded shadow-sm text-gray-400 font-bold uppercase">{v.detalhamentoMensal?.length || 0} meses</span>
+                          <span className="text-[10px] bg-white border border-gray-200 px-2 py-1 rounded shadow-sm text-gray-400 font-bold uppercase">{v.detalhamentoMensal?.length || 0} Meses</span>
                         )}
                        </div>
                     </td>
@@ -297,7 +297,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result, isEditing = fal
                         <div className="flex items-center justify-between mb-4 px-2">
                           <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center">
                             <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                            Apuração Mensal Detalhada
+                            Memória de Cálculo Discriminada
                           </h4>
                           {isEditing && (
                             <button onClick={() => {
@@ -306,7 +306,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result, isEditing = fal
                                  newVerbas[idx].detalhamentoMensal = [...currentDetail, { competencia: '', baseCalculo: 0, valorNominal: 0, valorCorrigido: 0, juros: 0, total: 0, quantidade: 0, unidade: '', indice: 1 }];
                                  onResultChange?.({...result, verbas: newVerbas});
                                }} className="text-[10px] font-bold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-lg shadow-sm transition-all active:scale-95">
-                                 + Adicionar Mês
+                                 + Novo Mês
                             </button>
                           )}
                         </div>
@@ -315,11 +315,11 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result, isEditing = fal
                           <table className="min-w-[1000px] w-full divide-y divide-slate-100">
                             <thead className="bg-slate-50">
                               <tr className="divide-x divide-slate-100">
-                                <th className="px-2 py-2.5 text-left text-[9px] font-bold text-slate-500 uppercase">Comp.</th>
-                                <th className="px-2 py-2.5 text-right text-[9px] font-bold text-slate-500 uppercase">Base Cálc.</th>
-                                <th className="px-2 py-2.5 text-right text-[9px] font-bold text-slate-500 uppercase">Vl. Nominal</th>
-                                <th className="px-2 py-2.5 text-center text-[9px] font-bold text-slate-500 uppercase w-24">Índice</th>
-                                <th className="px-2 py-2.5 text-right text-[9px] font-bold text-slate-500 uppercase">Princ. Corr.</th>
+                                <th className="px-2 py-2.5 text-left text-[9px] font-bold text-slate-500 uppercase">Competência</th>
+                                <th className="px-2 py-2.5 text-right text-[9px] font-bold text-slate-500 uppercase">Base de Cálculo</th>
+                                <th className="px-2 py-2.5 text-right text-[9px] font-bold text-slate-500 uppercase">Valor Nominal</th>
+                                <th className="px-2 py-2.5 text-center text-[9px] font-bold text-slate-500 uppercase w-24">Índice Corr.</th>
+                                <th className="px-2 py-2.5 text-right text-[9px] font-bold text-slate-500 uppercase">Principal Corrig.</th>
                                 <th className="px-2 py-2.5 text-right text-[9px] font-bold text-slate-500 uppercase">Juros SELIC</th>
                                 <th className="px-3 py-2.5 text-right text-[9px] font-bold text-blue-600 uppercase">Subtotal</th>
                                 {isEditing && <th className="px-2 py-2.5 w-10"></th>}
@@ -375,7 +375,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result, isEditing = fal
         <div>
             <h3 className="text-lg font-bold text-gray-700 mb-4 flex items-center">
                 <span className="bg-blue-600 w-1.5 h-6 mr-2 rounded-full"></span>
-                2. Fundamentação Técnica Pericial
+                2. Fundamentação e Notas Periciais
             </h3>
             <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 shadow-inner">
                 {isEditing ? (
@@ -383,19 +383,13 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result, isEditing = fal
                         value={result.observation} 
                         onChange={(e) => handleFieldChange('observation', e.target.value)}
                         className="w-full p-4 border border-slate-300 rounded-xl text-sm min-h-[220px] focus:ring-1 focus:ring-blue-500 bg-white"
-                        placeholder="Descreva as bases de cálculo, índices aplicados e critérios de juros..."
+                        placeholder="Descreva critérios de juros, índices e bases de cálculo..."
                     />
                 ) : (
                     <div className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap italic">
-                        {result.observation || 'Relatório sem observações técnicas adicionais.'}
+                        {result.observation || 'Relatório pericial sem observações adicionais.'}
                     </div>
                 )}
-                <div className="mt-4 flex items-center p-3 bg-amber-50 rounded-lg border border-amber-100">
-                    <svg className="w-5 h-5 text-amber-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                    </svg>
-                    <p className="text-[10px] font-bold text-amber-700 uppercase leading-tight">Nota: Campo de orientação interna. Não impresso no PDF final.</p>
-                </div>
             </div>
         </div>
 
